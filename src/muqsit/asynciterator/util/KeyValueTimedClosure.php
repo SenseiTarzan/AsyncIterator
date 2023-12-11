@@ -32,7 +32,11 @@ final class KeyValueTimedClosure{
 	public function call(mixed $key, mixed $value, bool $await = false) : mixed{
         $this->timings->startTiming();
         $return = $await ? Await::promise(function ($resolve, $reject) use($await, $key, $value) {
-            Await::g2c(($this->closure)($key, $value), $resolve, $reject);
+            $test = ($this->closure)($key, $value);
+            if ($test instanceof \Generator)
+                Await::g2c($test, $resolve, $reject);
+            else
+                $resolve($test);
         }): $await;
         $this->timings->stopTiming();
 		return $return;

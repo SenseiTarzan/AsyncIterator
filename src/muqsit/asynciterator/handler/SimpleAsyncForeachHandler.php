@@ -61,7 +61,10 @@ final class SimpleAsyncForeachHandler implements AsyncForeachHandler{
 
 	private function cancelNext() : void{
 		$this->callbacks = [];
-		$this->as(static function($key, $value) : AsyncForeachResult{ return AsyncForeachResult::CANCEL(); });
+		$this->as(static function($key, $value){
+
+            return AsyncForeachResult::CANCEL();
+        });
 	}
 
 	public function handle() : bool{

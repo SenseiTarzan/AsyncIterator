@@ -101,12 +101,14 @@ final class SimpleAsyncForeachHandlerAwait implements AsyncForeachHandler{
 		}
 	}
 
-	public function as(Closure $callback) : AsyncForeachHandler{
+	public function as(Closure $callback) : AsyncForeachHandler
+    {
 		$this->callbacks[spl_object_id($callback)] = new KeyValueTimedClosure(AsyncForeachHandlerTimings::getTraverserTimings($this->timings_parent_name, $callback), $callback);
 		return $this;
 	}
 
-	public function onCompletion(Closure $callback) : AsyncForeachHandler{
+	public function onCompletion(Closure $callback) : AsyncForeachHandler
+    {
 		$this->finalization_callbacks[self::COMPLETION_CALLBACKS][spl_object_id($callback)] = new EmptyTimedClosure(AsyncForeachHandlerTimings::getOnCompletionTimings($this->timings_parent_name, $callback), $callback);
 		return $this;
 	}
