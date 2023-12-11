@@ -25,7 +25,7 @@ final class AsyncForeachTask extends Task{
 	public function onRun() : void{
         if ($this->async_foreach_handler instanceof SimpleAsyncForeachHandlerAwait){
                 Await::f2c(function (){
-                    yield from $this->async_foreach_handler->handle();
+                    return yield from $this->async_foreach_handler->handle();
                 }, function (bool $value): void {
                     if (!$value){
                         $this->async_foreach_handler->doCompletion();
