@@ -20,7 +20,7 @@ interface AsyncForeachHandler{
 	 * @param Closure(TKey, TValue) : AsyncForeachResult $callback
 	 * @return AsyncForeachHandler<TKey, TValue>
 	 */
-	public function as(Closure $callback) : self;
+	public function as(Closure $callback) : static;
 
 	/**
 	 * Stops the foreach task, triggering interrupt listeners
@@ -43,7 +43,7 @@ interface AsyncForeachHandler{
 	 * @param Closure() : void $callback
 	 * @return AsyncForeachHandler<TKey, TValue>
 	 */
-	public function onCompletion(Closure $callback) : self;
+	public function onCompletion(Closure $callback) : static;
 
 	/**
 	 * Called after the foreach task is interrupted.
@@ -51,7 +51,7 @@ interface AsyncForeachHandler{
 	 * @param Closure() : void $callback
 	 * @return AsyncForeachHandler<TKey, TValue>
 	 */
-	public function onInterruption(Closure $callback) : self;
+	public function onInterruption(Closure $callback) : static;
 
 	/**
 	 * Called after the foreach task is either completed or interrupted.
@@ -59,5 +59,5 @@ interface AsyncForeachHandler{
 	 * @param Closure() : void $callback
 	 * @return AsyncForeachHandler<TKey, TValue>
 	 */
-	public function onCompletionOrInterruption(Closure $callback) : self;
+	public function onCompletionOrInterruption(Closure $callback) : static;
 }

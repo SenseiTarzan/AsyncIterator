@@ -80,7 +80,7 @@ final class SimpleAsyncForeachHandlerAwait implements AsyncForeachHandler{
                     $value = $this->iterable->current();
 
                     foreach($this->callbacks as $callback){
-                        if(!(yield from $callback->call($key, $value)->handle($this))){
+                        if(!((yield from $callback->call($key, $value))->handle($this))){
                             return false;
                         }
                     }
