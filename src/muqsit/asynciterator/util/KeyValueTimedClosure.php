@@ -28,9 +28,9 @@ final class KeyValueTimedClosure{
 	 * @param U $value
 	 * @return V
 	 */
-	public function call(mixed $key, mixed $value) : mixed{
+	public function call(mixed $key, mixed $value, bool $await = false) : mixed{
 		$this->timings->startTiming();
-		$return = ($this->closure)($key, $value);
+		$return = $await ? yield from ($this->closure)($key, $value) : $await;
 		$this->timings->stopTiming();
 		return $return;
 	}
