@@ -25,7 +25,7 @@ final class SimpleAsyncForeachHandlerAwait implements AsyncForeachHandler{
 
 	private string $timings_parent_name;
 
-	/** @var array<KeyValueTimedClosure<TKey, TValue, AsyncForeachResult>> */
+	/** @var array<KeyValueTimedClosure<TKey, TValue, AsyncForeachResult|Generator<AsyncForeachResult>>> */
 	private array $callbacks = [];
 
 	private int $finalization_type = self::COMPLETION_CALLBACKS;
@@ -81,11 +81,12 @@ final class SimpleAsyncForeachHandlerAwait implements AsyncForeachHandler{
 
                     foreach($this->callbacks as $callback){
                         $tt = $callback->call($key, $value);
+                        var_dump($tt);
                         if ($tt instanceof Generator){
                             if(!((yield from $tt)->handle($this))){
                                 return false;
                             }
-                        }else if(!$tt->handle($this)){
+                        }else if($tt instanceof AsyncForeachResult && !$tt->handle($this)){
                             return false;
                         }
                     }
