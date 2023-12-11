@@ -80,7 +80,12 @@ final class SimpleAsyncForeachHandlerAwait implements AsyncForeachHandler{
                     $value = $this->iterable->current();
 
                     foreach($this->callbacks as $callback){
-                        if(!((yield from $callback->call($key, $value))->handle($this))){
+                        $tt = $callback->call($key, $value);
+                        if ($tt instanceof Generator){
+                            if(!((yield from $tt)->handle($this))){
+                                return false;
+                            }
+                        }else if(!$tt->handle($this)){
                             return false;
                         }
                     }
